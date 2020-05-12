@@ -1,0 +1,37 @@
+diff --git a/src/FieldStateManager.php b/src/FieldStateManager.php
+index 7097738..e3cd269 100644
+--- a/src/FieldStateManager.php
++++ b/src/FieldStateManager.php
+@@ -174,6 +174,7 @@ class FieldStateManager extends DefaultPluginManager {
+       case 'decimal':
+       case 'float':
+       case 'integer':
++      case 'email':
+       case 'string':
+       case 'string_long':
+         $target = &$element[0]['value'];
+@@ -181,10 +182,14 @@ class FieldStateManager extends DefaultPluginManager {
+ 
+       case 'text_with_summary':
+       case 'text_long':
++        $container = TRUE;
++
+       case 'list_float':
+       case 'list_integer':
+       case 'list_string':
+       case 'link':
++        $container = TRUE;
++
+       case 'entity_reference_revisions':
+       case 'datetime':
+       case 'color_field_type':
+@@ -261,6 +266,9 @@ class FieldStateManager extends DefaultPluginManager {
+         '#states' => $this->getStates($states, $form_state, $context, $element, $parents),
+       ];
+     }
++    else if ($type == 'datetime') {
++      $element[0]['value']['#states'] = $this->getStates($states, $form_state, $context, $element, $parents);
++    }
+     else {
+       $target['#states'] = $this->getStates($states, $form_state, $context, $element, $parents);
+     }
