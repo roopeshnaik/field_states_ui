@@ -1,0 +1,26 @@
+diff --git a/src/FieldStateBase.php b/src/FieldStateBase.php
+index ccd9a79..aee0afb 100644
+--- a/src/FieldStateBase.php
++++ b/src/FieldStateBase.php
+@@ -76,10 +76,20 @@ abstract class FieldStateBase extends PluginBase implements FieldStateInterface,
+         $selector = ":input[name^='{$target}']";
+         break;
+     }
++    switch ($this->configuration['comparison']) {
++      case 'checked':
++      case 'unchecked':
++        $value = TRUE;
++        break;
++
++      default:
++        $value = $this->configuration['value'];
++      break;
++    }
+ 
+     $states[$this->pluginDefinition['id']][] = [
+       $selector => [
+-        $this->configuration['comparison'] => $this->configuration['value'],
++        $this->configuration['comparison'] => $value,
+       ],
+     ];
+ 
